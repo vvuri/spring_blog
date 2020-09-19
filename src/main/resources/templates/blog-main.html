@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Blog</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"/>
+
+<div class="container-md mt-5">
+
+    <div th:each="el : ${posts}">
+        <div class="bg-light mr-md-1 pt-1 px-1 pt-md-1 px-md-1 text-center text-white overflow-hidden">
+            <div class="my-1 py-1">
+                <h2 th:text="${el.title}" class="text-dark display-5"/>
+<!--                <p  class="lead">And an even wittier subheading.</p>-->
+            </div>
+            <div  th:text="${el.anons}" class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+            <a th:href="'/blog/'+${el.id}">Полный текст</a>
+        </div>
+    </div>
+
+
+<!--        <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">-->
+<!--            <div class="my-3 py-3">-->
+<!--                <h2 class="display-5">Another headline</h2>-->
+<!--                <p class="lead">And an even wittier subheading.</p>-->
+<!--            </div>-->
+<!--            <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>-->
+<!--        </div>-->
+
+<!--        <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">-->
+<!--            <div class="my-3 p-3">-->
+<!--                <h2 class="display-5">Another headline</h2>-->
+<!--                <p class="lead">And an even wittier subheading.</p>-->
+<!--            </div>-->
+<!--            <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>-->
+<!--        </div>-->
+</div>
+
+<footer th:insert="blocks/footer :: footer"/>
+</body>
+</html>

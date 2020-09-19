@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<div class="container">
+    <h1 class="mt-5">Sticky footer</h1>
+    <p class="lead">Pin a footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS.</p>
+    <p>Use <a href="/docs/4.5/examples/sticky-footer-navbar/">the sticky footer with a fixed navbar</a> if need be, too.</p>
+</div>
+<footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>
