@@ -12,6 +12,17 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    public Post() {  // В модели должен быть конструктор без параметров - зачем не понятно пока
+    }
+
+    public Post(String title, String anons, String full_text) {
+        this.title = title;
+        this.anons = anons;
+        this.full_text = full_text;
+        this.create_date = new Date();
+        this.views = 0;
+    }
+
     private String title, anons, full_text;
 
     public Long getId() {
