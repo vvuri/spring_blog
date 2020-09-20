@@ -4,10 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.vvuri.blog.models.Post;
 import ru.vvuri.blog.repo.PostRepository;
+
+import java.util.ArrayList;
+import java.util.Optional;
 
 @Controller
 public class BlogController {
@@ -25,7 +29,7 @@ public class BlogController {
     @GetMapping("/blog/add")
     public String blogAdd(Model model) {
         model.addAttribute("title", "Add new post");
-        return "block-add";
+        return "blog-add";
     }
 
     @PostMapping("/blog/add")
@@ -38,4 +42,50 @@ public class BlogController {
         return "redirect:/blog";
     }
 
+    @GetMapping("/blog/{id}")                                // Получаем идентификатор различный и описываем его далее
+    public String blogInfo(@PathVariable(value = "id") long id, Model model) {
+        if (!postRepository.existsById(id)) {
+            return "redirect:/blog";
+        }
+
+        Optional<Post> post = postRepository.findById(id);   // С Optional тяжело работать внутри шаблона
+        ArrayList<Post> res = new ArrayList<>();             // Поэтому делаем преобразование
+        post.ifPresent(res::add);
+        model.addAttribute("post", res);
+        return "blog-info";
+    }
+
+    @GetMapping("/blog/{id}/edit")
+    public String blogEdit(@PathVariable(value = "id") long id, Model model) {
+        if (!postRepository.existsById(id)) {
+            return "redirect:/blog";
+        }
+
+        Optional<Post> post = postRepository.findById(id);   // С Optional тяжело работать внутри шаблона
+        ArrayList<Post> res = new ArrayList<>();             // Поэтому делаем преобразование
+        post.ifPresent(res::add);
+        model.addAttribute("post", res);
+        return "blog-edit";
+    }
+
+    @PostMapping("/blog/{id}/edit")
+    public String blogPostUpdate(@PathVariable(value = "id") long id,
+                                 @RequestParam String title,
+                                 @RequestParam String anons,
+                                 @RequestParam String full_text,
+                                 Model model) {
+        Post post = postRepository.findById(id).orElseThrow();  // исключение если будет не найдена запись
+        post.setTitle(title);
+        post.setAnons(anons);
+        post.setFull_text(full_text);
+        postRepository.save(post);
+        return "redirect:/blog";
+    }
+
+    @PostMapping("/blog/{id}/remove")
+    public String blogPostDelete(@PathVariable(value = "id") long id, Model model) {
+        Post post = postRepository.findById(id).orElseThrow();  // исключение если будет не найдена запись
+        postRepository.delete(post);
+        return "redirect:/blog";
+    }
 }
